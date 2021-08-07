@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\API">
+      <UniqueIdentifier>{1dba9a01-40da-4c5f-9d16-f6ade1529411}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API">
+      <UniqueIdentifier>{eab5bd1f-8a88-4193-8c3f-a063d266d3c2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ZycoreExportConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Allocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\ArgParse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Bitset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Comparison.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Format.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\LibC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\List.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Status.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\String.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\Zycore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\API\Memory.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\API\Synchronization.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\API\Terminal.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Zycore\API\Thread.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Allocator.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ArgParse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bitset.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Format.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\List.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\String.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Zycore.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\API\Memory.c">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+    <ClCompile Include="src\API\Synchronization.c">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+    <ClCompile Include="src\API\Terminal.c">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+    <ClCompile Include="src\API\Thread.c">
+      <Filter>Source Files\API</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

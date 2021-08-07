@@ -72,23 +72,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>include;src;$(IncludePath)</IncludePath>
+    <IncludePath>deps/Zycore/include;deps/Zydis/include;include;src;$(IncludePath)</IncludePath>
     <TargetName>version</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>include;src;$(IncludePath)</IncludePath>
+    <IncludePath>deps/Zycore/include;deps/Zydis/include;include;src;$(IncludePath)</IncludePath>
     <GenerateManifest>false</GenerateManifest>
     <TargetName>version</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>include;src;$(IncludePath)</IncludePath>
+    <IncludePath>deps/Zycore/include;deps/Zydis/include;include;src;$(IncludePath)</IncludePath>
     <TargetName>version</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>include;src;$(IncludePath)</IncludePath>
+    <IncludePath>deps/Zycore/include;deps/Zydis/include;include;src;$(IncludePath)</IncludePath>
     <GenerateManifest>false</GenerateManifest>
     <TargetName>version</TargetName>
   </PropertyGroup>
