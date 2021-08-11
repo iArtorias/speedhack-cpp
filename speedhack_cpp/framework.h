@@ -11,6 +11,7 @@
 
 // Function typedef
 #define __typedef_func(func, ret, ...) using func##_t = ret(WINAPI*)(##__VA_ARGS__); func##_t m_##func = nullptr;
+#define __typedef_func_winapi(func, ret, ...) using func##_t = ret(WINAPI*)(##__VA_ARGS__); func##_t m_##func = func##;
 
 // Resolve the specified function proc
 #define __setup_proc(func, proxy) m_##func = reinterpret_cast<func##_t>(::GetProcAddress(##proxy, #func));
@@ -24,6 +25,8 @@
 #include <sysinfoapi.h>
 #include <profileapi.h>
 #include <winternl.h>
+#include <processthreadsapi.h>
+#include <timeapi.h>
 #include <string>
 #include <fstream>
 #include <filesystem>

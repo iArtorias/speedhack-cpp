@@ -1,7 +1,7 @@
 #pragma once
 
-// MinHook (https://github.com/TsudaKageyu/minhook)
-#include <minhook/MinHook.h>
+// Detours (https://github.com/microsoft/Detours)
+#include <detours/detours.h>
 
 class CSpeedHack
 {
@@ -36,6 +36,7 @@ protected:
     {
         __clear_proc( GetTickCount );
         __clear_proc( GetTickCount64 );
+        __clear_proc( timeGetTime );
         __clear_proc( QueryPerformanceCounter );
     }
 
@@ -44,8 +45,10 @@ private:
     // Local variables
     DWORD m_time{ 0 };
     ULONGLONG m_time64{ 0 };
+    DWORD m_time_get_time{ 0 };
     LARGE_INTEGER m_time_largeint{};
-    double m_speed_multiplier{ 0.0 };
+    double m_speed_multiplier{ 1.0 };
+
 
     // 'GetTickCount' hook
     static DWORD WINAPI hook_GetTickCount();
@@ -53,6 +56,10 @@ private:
 
     // 'GetTickCount64' hook
     static ULONGLONG WINAPI hook_GetTickCount64();
+
+
+    // 'timeGetTime' hook
+    static DWORD WINAPI hook_timeGetTime();
 
 
     // 'QueryPerformanceCounter' hook
@@ -71,8 +78,52 @@ private:
     ULONGLONG set_tick_count64()
     {
         return static_cast<ULONGLONG>(m_time64 +
-            ((m_GetTickCount() - m_time64) * m_speed_multiplier));
+            ((m_GetTickCount64() - m_time64) * m_speed_multiplier));
     }
+
+
+    // Sets the new value to return for 'timeGetTime'
+    DWORD set_time_get_time()
+    {
+        return static_cast<DWORD>(m_time_get_time +
+            ((m_timeGetTime() - m_time_get_time) * m_speed_multiplier));
+    }
+
+    #ifdef _WIN64
+    // Gets a new place for the function hook (precisely for 'GetTickCount' and 'GetTickCount64')
+    template<typename T>
+    uint64_t check_instruction( T _func )
+    {
+        auto maybe_jmp = *(reinterpret_cast<unsigned char*>(_func));
+
+        // Check if the first byte is equal to '0xEB', meaning there's a jump
+        if (maybe_jmp == 0xEB)
+        {
+            auto address{ (reinterpret_cast<uint64_t>(_func)) };
+            // new_address = old_address + delta + 2
+            return (address + *(reinterpret_cast<unsigned char*>(address + 1)) + 2);
+        }
+
+        return 0;
+    }
+    #else
+    // Gets a new place for the function hook (precisely for 'GetTickCount' and 'GetTickCount64')
+    template<typename T>
+    uint32_t check_instruction( T _func )
+    {
+        auto maybe_jmp = *(reinterpret_cast<unsigned char*>(_func));
+
+        // Check if the first byte is equal to '0xEB', meaning there's a jump
+        if (maybe_jmp == 0xEB)
+        {
+            auto address{ (reinterpret_cast<uint32_t>(_func)) };
+            // new_address = old_address + delta + 2
+            return (address + *(reinterpret_cast<unsigned char*>(address + 1)) + 2);
+        }
+
+        return 0;
+    }
+    #endif
 
 
     // Sets the new QuadPart value for 'QueryPerformanceCounter'
@@ -98,9 +149,10 @@ public:
 
 
     // Resolve typedefs
-    __typedef_func( GetTickCount, DWORD );
-    __typedef_func( GetTickCount64, ULONGLONG );
-    __typedef_func( QueryPerformanceCounter, BOOL, LARGE_INTEGER* );
+    __typedef_func_winapi( GetTickCount, DWORD );
+    __typedef_func_winapi( GetTickCount64, ULONGLONG );
+    __typedef_func_winapi( timeGetTime, DWORD );
+    __typedef_func_winapi( QueryPerformanceCounter, BOOL, LARGE_INTEGER* );
 
 
     /// <summary>
@@ -109,74 +161,59 @@ public:
     /// <returns>Returns "true" upon success, "false" otherwise</returns>
     bool setup_hooks()
     {
-        MH_STATUS status{ MH_ERROR_NOT_INITIALIZED };
-
-        status = MH_Initialize();
-
-        if (status != MH_STATUS::MH_OK)
-            return false;
-
-        // Create and enable 'GetTickCount' API hook
-        status = MH_CreateHook(
-            &GetTickCount,
-            &hook_GetTickCount,
-            reinterpret_cast<void**>(&m_GetTickCount) );
-
-        if (status != MH_STATUS::MH_OK)
-            return false;
-
-        status = MH_QueueEnableHook( &GetTickCount );
-        if (status != MH_STATUS::MH_OK)
-            return false;
-
-
-        // Create and enable 'GetTickCount64' API hook
-        status = MH_CreateHook(
-            &GetTickCount64,
-            &hook_GetTickCount64,
-            reinterpret_cast<void**>(&m_GetTickCount64) );
-
-        if (status != MH_STATUS::MH_OK)
-            return false;
-
-        status = MH_QueueEnableHook( &GetTickCount64 );
-        if (status != MH_STATUS::MH_OK)
-            return false;
-
-
-        // Create and enable 'QueryPerformanceCounter' API hook
-        status = MH_CreateHook(
-            &QueryPerformanceCounter,
-            &hook_QueryPerformanceCounter,
-            reinterpret_cast<void**>(&m_QueryPerformanceCounter) );
-
-        if (status != MH_STATUS::MH_OK)
-            return false;
-
-        status = MH_QueueEnableHook( &QueryPerformanceCounter );
-        if (status != MH_STATUS::MH_OK)
-            return false;
-
-
-        // Apply all the previously created hooks
-        status = MH_ApplyQueued();
-        if (status != MH_STATUS::MH_OK)
-            return false;
-
-
-        // Set the current time for 'GetTickCount', 'GetTickCount64' and 'QueryPerformanceCounter'
-        m_time = hook_GetTickCount();
+        // Set the current time for 'GetTickCount', 'GetTickCount64', 'timeGetTime' and 'QueryPerformanceCounter'
+        m_time = GetTickCount();
         if (m_time == 0)
             return false;
 
-        m_time64 = hook_GetTickCount64();
+        m_time64 = GetTickCount64();
         if (m_time64 == 0)
             return false;
 
-        hook_QueryPerformanceCounter( &m_time_largeint );
+        m_time_get_time = timeGetTime();
+        if (m_time_get_time == 0)
+            return false;
+
+        QueryPerformanceCounter( &m_time_largeint );
         if (m_time_largeint.QuadPart == 0)
             return false;
 
+        auto inst_check = check_instruction( m_GetTickCount );
+        if (inst_check > 0)
+            m_GetTickCount = reinterpret_cast<GetTickCount_t>(inst_check);
+
+        inst_check = check_instruction( m_GetTickCount64 );
+        if (inst_check > 0)
+            m_GetTickCount64 = reinterpret_cast<GetTickCount64_t>(inst_check);
+
+        DetourTransactionBegin();
+        DetourUpdateThread( GetCurrentThread() );
+        DetourAttach( reinterpret_cast<PVOID*>(&m_GetTickCount), hook_GetTickCount );
+        DetourAttach( reinterpret_cast<PVOID*>(&m_GetTickCount64), hook_GetTickCount64 );
+        DetourAttach( reinterpret_cast<PVOID*>(&m_timeGetTime), hook_timeGetTime );
+        DetourAttach( reinterpret_cast<PVOID*>(&m_QueryPerformanceCounter), hook_QueryPerformanceCounter );
+        DetourTransactionCommit();
+
         return true;
+    }
+
+    /// <summary>
+    /// Remove all the created hooks.
+    /// </summary>
+    void remove_hooks()
+    {
+        DetourTransactionBegin();
+        DetourUpdateThread( GetCurrentThread() );
+
+        if (m_GetTickCount != nullptr)
+            DetourDetach( reinterpret_cast<PVOID*>(&m_GetTickCount), hook_GetTickCount );
+        if (m_GetTickCount64 != nullptr)
+            DetourDetach( reinterpret_cast<PVOID*>(&m_GetTickCount64), hook_GetTickCount64 );
+        if (m_timeGetTime != nullptr)
+            DetourDetach( reinterpret_cast<PVOID*>(&m_timeGetTime), hook_timeGetTime );
+        if (m_QueryPerformanceCounter != nullptr)
+            DetourDetach( reinterpret_cast<PVOID*>(&m_QueryPerformanceCounter), hook_QueryPerformanceCounter );
+
+        DetourTransactionCommit();
     }
 };

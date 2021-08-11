@@ -190,6 +190,146 @@ EXTERN_API BOOL WINAPI VerQueryValueW(
 #pragma endregion
 
 
+#pragma region DDRAW_DLL
+
+EXTERN_API HRESULT WINAPI DirectDrawCreate(
+    GUID* lpGUID,
+    void* lplpDD,
+    void* pUnkOuter )
+{
+    return CProxyStub::instance().m_DirectDrawCreate( lpGUID, lplpDD, pUnkOuter );
+}
+
+
+EXTERN_API HRESULT WINAPI DirectDrawCreateEx(
+    GUID* lpGuid,
+    LPVOID* lplpDD,
+    REFIID iid,
+    void* pUnkOuter )
+{
+    return CProxyStub::instance().m_DirectDrawCreateEx( lpGuid, lplpDD, iid, pUnkOuter );
+}
+
+
+EXTERN_API HRESULT WINAPI DirectDrawCreateClipper(
+    DWORD dwFlags,
+    void* FAR* lplpDDClipper,
+    void* pUnkOuter )
+{
+    return CProxyStub::instance().m_DirectDrawCreateClipper( dwFlags, lplpDDClipper, pUnkOuter );
+}
+
+
+EXTERN_API HRESULT WINAPI DirectDrawEnumerateA(
+    void* lpCallback,
+    LPVOID lpContext )
+{
+    return CProxyStub::instance().m_DirectDrawEnumerateA( lpCallback, lpContext );
+}
+
+
+EXTERN_API HRESULT WINAPI DirectDrawEnumerateW(
+    void* lpCallback,
+    LPVOID lpContext )
+{
+    return CProxyStub::instance().m_DirectDrawEnumerateW( lpCallback, lpContext );
+}
+
+
+EXTERN_API HRESULT WINAPI DirectDrawEnumerateExA(
+    void* lpCallback,
+    LPVOID lpContext, 
+    DWORD dwFlags )
+{
+    return CProxyStub::instance().m_DirectDrawEnumerateExA( lpCallback, lpContext, dwFlags );
+}
+
+
+EXTERN_API HRESULT WINAPI DirectDrawEnumerateExW(
+    void* lpCallback,
+    LPVOID lpContext,
+    DWORD dwFlags )
+{
+    return CProxyStub::instance().m_DirectDrawEnumerateExW( lpCallback, lpContext, dwFlags );
+}
+
+
+EXTERN_API void WINAPI AcquireDDThreadLock()
+{
+    return CProxyStub::instance().m_AcquireDDThreadLock();
+}
+
+
+EXTERN_API void WINAPI ReleaseDDThreadLock()
+{
+    return CProxyStub::instance().m_ReleaseDDThreadLock();
+}
+
+
+EXTERN_API DWORD WINAPI D3DParseUnknownCommand( 
+    LPVOID lpCmd,
+    LPVOID* lpRetCmd )
+{
+    return CProxyStub::instance().m_D3DParseUnknownCommand( lpCmd, lpRetCmd );
+}
+
+
+EXTERN_API HRESULT WINAPI DllCanUnloadNow()
+{
+    return CProxyStub::instance().m_DllCanUnloadNow();
+}
+
+
+EXTERN_API HRESULT WINAPI DllGetClassObject(
+    const CLSID& rclsid,
+    const IID& riid,
+    void** ppv )
+{
+    return CProxyStub::instance().m_DllGetClassObject( rclsid, riid, ppv );
+}
+
+
+EXTERN_API size_t WINAPI GetSurfaceFromDC(
+    size_t aUnknown1,
+    size_t aUnknown2,
+    size_t aUnknown3 )
+{
+    return CProxyStub::instance().m_GetSurfaceFromDC( aUnknown1, aUnknown2, aUnknown3 );
+}
+
+
+EXTERN_API size_t WINAPI CompleteCreateSysmemSurface(
+    size_t aUnknown1 )
+{
+    return CProxyStub::instance().m_CompleteCreateSysmemSurface( aUnknown1 );
+}
+
+
+EXTERN_API size_t WINAPI DDGetAttachedSurfaceLcl(
+    size_t aUnknown1,
+    int* pUnknown2,
+    void* pUnknown3 )
+{
+    return CProxyStub::instance().m_DDGetAttachedSurfaceLcl( aUnknown1, pUnknown2, pUnknown3 );
+}
+
+
+EXTERN_API size_t WINAPI DDInternalLock(
+    void* pDrawSurface )
+{
+    return CProxyStub::instance().m_DDInternalLock( pDrawSurface );
+}
+
+
+EXTERN_API size_t WINAPI DDInternalUnlock(
+    size_t aUnknown1 )
+{
+    return CProxyStub::instance().m_DDInternalUnlock( aUnknown1 );
+}
+
+#pragma endregion
+
+
 #pragma region D3D8_DLL
 
 EXTERN_API int WINAPI Direct3D8EnableMaximizedWindowedModeShim( 

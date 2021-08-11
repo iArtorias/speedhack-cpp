@@ -26,6 +26,43 @@ protected:
         __clear_proc( VerLanguageNameW );
         __clear_proc( VerQueryValueA );
         __clear_proc( VerQueryValueW );
+        __clear_proc( DirectDrawCreate );
+        __clear_proc( DirectDrawCreateEx );
+        __clear_proc( DirectDrawCreateClipper );
+        __clear_proc( DirectDrawEnumerateA );
+        __clear_proc( DirectDrawEnumerateW );
+        __clear_proc( DirectDrawEnumerateExA );
+        __clear_proc( DirectDrawEnumerateExW );
+        __clear_proc( AcquireDDThreadLock );
+        __clear_proc( ReleaseDDThreadLock );
+        __clear_proc( D3DParseUnknownCommand );
+        __clear_proc( DllCanUnloadNow );
+        __clear_proc( DllGetClassObject );
+        __clear_proc( GetSurfaceFromDC );
+        __clear_proc( CompleteCreateSysmemSurface );
+        __clear_proc( DDGetAttachedSurfaceLcl );
+        __clear_proc( DDInternalLock );
+        __clear_proc( DDInternalUnlock );
+        __clear_proc( Direct3D8EnableMaximizedWindowedModeShim );
+        __clear_proc( ValidatePixelShader );
+        __clear_proc( ValidateVertexShader );
+        __clear_proc( Direct3DCreate8 );
+        __clear_proc( Direct3DCreate9 );
+        __clear_proc( Direct3DCreate9 );
+        __clear_proc( Direct3DCreate9Ex );
+        __clear_proc( D3DPERF_BeginEvent );
+        __clear_proc( D3DPERF_EndEvent );
+        __clear_proc( D3DPERF_SetMarker );
+        __clear_proc( D3DPERF_SetRegion );
+        __clear_proc( D3DPERF_QueryRepeatFrame );
+        __clear_proc( D3DPERF_SetOptions );
+        __clear_proc( D3DPERF_GetStatus );
+        __clear_proc( DebugSetMute );
+        __clear_proc( DebugSetLevel );
+        __clear_proc( PSGPError );
+        __clear_proc( PSGPSampleTexture );
+        __clear_proc( Direct3DShaderValidatorCreate9 );
+        __clear_proc( Direct3D9EnableMaximizedWindowedModeShim );
     }
 
 private:
@@ -34,6 +71,7 @@ private:
     std::vector<std::wstring> m_supported_proxies
     {
         L"version.dll",
+        L"ddraw.dll",
         L"d3d8.dll",
         L"d3d9.dll"
     };
@@ -73,6 +111,26 @@ public:
     __typedef_func( VerLanguageNameW, DWORD, DWORD, LPWSTR, DWORD );
     __typedef_func( VerQueryValueA, BOOL, LPCVOID, LPCSTR, LPVOID*, PUINT );
     __typedef_func( VerQueryValueW, BOOL, LPCVOID, LPCWSTR, LPVOID*, PUINT );
+
+
+    // 'ddraw.dll'
+    __typedef_func( DirectDrawCreate, HRESULT, GUID* lpGUID, void* lplpDD, void* pUnkOuter );
+    __typedef_func( DirectDrawCreateEx, HRESULT, GUID* lpGuid, LPVOID* lplpDD, REFIID iid, void* pUnkOuter );
+    __typedef_func( DirectDrawCreateClipper, HRESULT, DWORD dwFlags, void* FAR* lplpDDClipper, void* pUnkOuter );
+    __typedef_func( DirectDrawEnumerateA, HRESULT, void* lpCallback, LPVOID lpContext );
+    __typedef_func( DirectDrawEnumerateW, HRESULT, void* lpCallback, LPVOID lpContext );
+    __typedef_func( DirectDrawEnumerateExA, HRESULT, void* lpCallback, LPVOID lpContext, DWORD dwFlags );
+    __typedef_func( DirectDrawEnumerateExW, HRESULT, void* lpCallback, LPVOID lpContext, DWORD dwFlags );
+    __typedef_func( AcquireDDThreadLock, void );
+    __typedef_func( ReleaseDDThreadLock, void );
+    __typedef_func( D3DParseUnknownCommand, DWORD, LPVOID lpCmd, LPVOID* lpRetCmd );
+    __typedef_func( DllCanUnloadNow, HRESULT );
+    __typedef_func( DllGetClassObject, HRESULT, const CLSID& rclsid, const IID& riid, void** ppv );
+    __typedef_func( GetSurfaceFromDC, size_t, size_t aUnknown1, size_t aUnknown2, size_t aUnknown3 );
+    __typedef_func( CompleteCreateSysmemSurface, size_t, size_t aUnknown1 );
+    __typedef_func( DDGetAttachedSurfaceLcl, size_t, size_t aUnknown1, int* pUnknown2, void* pUnknown3 );
+    __typedef_func( DDInternalLock, size_t, void* pDrawSurface );
+    __typedef_func( DDInternalUnlock, size_t, size_t aUnknown1 );
 
 
     // 'd3d8.dll'
@@ -156,6 +214,26 @@ public:
         __setup_proc( VerLanguageNameW, proxy_dll );
         __setup_proc( VerQueryValueA, proxy_dll );
         __setup_proc( VerQueryValueW, proxy_dll );
+
+
+        // 'ddraw.dll'
+        __setup_proc( DirectDrawCreate, proxy_dll );
+        __setup_proc( DirectDrawCreateEx, proxy_dll );
+        __setup_proc( DirectDrawCreateClipper, proxy_dll );
+        __setup_proc( DirectDrawEnumerateA, proxy_dll );
+        __setup_proc( DirectDrawEnumerateW, proxy_dll );
+        __setup_proc( DirectDrawEnumerateExA, proxy_dll );
+        __setup_proc( DirectDrawEnumerateExW, proxy_dll );
+        __setup_proc( AcquireDDThreadLock, proxy_dll );
+        __setup_proc( ReleaseDDThreadLock, proxy_dll );
+        __setup_proc( D3DParseUnknownCommand, proxy_dll );
+        __setup_proc( DllCanUnloadNow, proxy_dll );
+        __setup_proc( DllGetClassObject, proxy_dll );
+        __setup_proc( GetSurfaceFromDC, proxy_dll );
+        __setup_proc( CompleteCreateSysmemSurface, proxy_dll );
+        __setup_proc( DDGetAttachedSurfaceLcl, proxy_dll );
+        __setup_proc( DDInternalLock, proxy_dll );
+        __setup_proc( DDInternalUnlock, proxy_dll );
 
 
         // 'd3d8.dll'

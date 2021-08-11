@@ -13,7 +13,7 @@
 
 ## Notes
 
-#### This library can also be renamed to `d3d8.dll` or `d3d9.dll` (might be useful for some older games).
+#### This library can also be renamed to `ddraw.dll`, `d3d8.dll` or `d3d9.dll` (might be useful for some older games).
 
 ## Todo
 
@@ -23,7 +23,7 @@
 
 ## Stuff used
 
-- **MinHook** (https://github.com/TsudaKageyu/minhook)
+- **Detours** (https://github.com/microsoft/Detours)
 
 ## Compilation notes
 

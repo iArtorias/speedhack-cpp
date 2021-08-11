@@ -24,7 +24,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
         case DLL_PROCESS_DETACH:
         {
-            MH_Uninitialize();
+            CSpeedHack::instance().remove_hooks();
             break;
         }
     }

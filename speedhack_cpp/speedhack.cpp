@@ -14,6 +14,13 @@ ULONGLONG WINAPI CSpeedHack::hook_GetTickCount64()
 }
 
 
+// 'timeGetTime' hook
+DWORD WINAPI CSpeedHack::hook_timeGetTime()
+{
+	return instance().set_time_get_time();
+}
+
+
 // 'QueryPerformanceCounter' hook
 BOOL WINAPI CSpeedHack::hook_QueryPerformanceCounter( LARGE_INTEGER* lpPerformanceCount )
 {
