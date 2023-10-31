@@ -27,4 +27,4 @@
 
 ## Compilation notes
 
-- **Visual Studio 2019** is recommended to compile this project
+- **Visual Studio 2019 / 2022** is recommended to compile this project
